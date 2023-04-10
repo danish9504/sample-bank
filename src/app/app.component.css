@@ -208,6 +208,12 @@ li{
 }
 .color-grayish-blue {
   color: #9698a6 !important;
+  /* color: #ffffff !important; */
+  /* font-size: 20px; */
+}
+.color-grayish-blue-d {
+  color: #ffffff !important;
+  font-size: 20px;
 }
 
 #request-invite-btn {

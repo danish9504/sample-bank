@@ -54,13 +54,8 @@
   </div>
   <div class="bg-color container-md w-md-50 d-md-flex flex-column">
     <div class="col-md-10 offset-md-1 col-xl-12 offset-xl-0 double-gutter-md-left-padding ">
-      <h2 id="business-tagline" class="text-center text-md-left">{{helpText}}</h2>
-      <ul class="text-center  text-md-left color-grayish-blue">
-          <li>{{accounts}}</li>
-          <li>{{others}}</li>
-          <li>{{services}}</li>
-          <li>{{statement}}</li>
-          <li>{{cards}}</li>
+      <h2 id="business-tagline" class="text-center text-md-left">{{helpTitle}}</h2>
+      <ul [innerHTML]="liText" class="text-center  text-md-left color-grayish-blue-d">
         </ul>
     </div>
   </div>
