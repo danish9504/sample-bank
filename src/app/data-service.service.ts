@@ -8,10 +8,13 @@ import { HttpClient } from '@angular/common/http';
 export class DataServiceService {
 
   constructor( private http:HttpClient) { }
-  // baseUrl ='https://bitsmartbanking.azurewebsites.net/api/v1'
-  baseUrl ='http://localhost:8080/api/v1'
+  baseUrl ='https://bitsmartbanking.azurewebsites.net/api/v1'
+  // baseUrl ='http://localhost:8080/api/v1'
 
   getDataFromApi(endPoint:String){
     return this.http.get(`${this.baseUrl}/${endPoint}`); 
+  }
+  getDataFromLocalApi(endPoint:String){
+    return this.http.get(`${endPoint}`); 
   }
 }
