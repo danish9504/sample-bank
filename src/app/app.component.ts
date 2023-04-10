@@ -36,7 +36,11 @@ export class AppComponent {
   liText = '';
 
   ngOnInit() {
-
+    $(document).on('keypress', (e:any)=> {
+      if (e.which == 13) {
+        this.helpYourself();
+      }
+    });
   }
 
   sayInVoice(text: any) {
@@ -192,7 +196,7 @@ export class AppComponent {
   allPayeeList: any;
   payee: any;
   amount = 3000;
-  securityCode :any;
+  securityCode: any;
   sendMoney() {
     this.sayInVoice('your value is accepted');
     $('#business-tagline-final').text('Choose the payee');
@@ -238,11 +242,11 @@ export class AppComponent {
               let cofirmation = event.results[0][0].transcript;
               console.log(cofirmation);
               console.log(event.results[0]);
-              if(cofirmation = 'okay' || cofirmation.includes('ok')){
-                  this.proceedTosecurityCode();
+              if (cofirmation = 'okay' || cofirmation.includes('ok')) {
+                this.proceedTosecurityCode();
               }
-              else{
-                  this.sayInVoice('You have cancel the trasaction');
+              else {
+                this.sayInVoice('You have cancel the trasaction');
               }
             }
           });
@@ -251,41 +255,43 @@ export class AppComponent {
     });
   }
 
-  confirmation(){
+  confirmation() {
     this.rcgdVoice = this.startRecognitionNew();
     this.recognition.onresult = (event: any) => {
       this.transcript = event.results[0][0].transcript;
       console.log(this.transcript);
-      if(this.transcript.includes('yes')){
-          this.proceedTosecurityCode();
+      if (this.transcript.includes('yes')) {
+        this.proceedTosecurityCode();
       }
-      else{
-          this.sayInVoice('You have cancel the trasaction');
+      else {
+        this.sayInVoice('You have cancel the trasaction');
       }
     }
   }
 
-  proceedTosecurityCode(){
+  proceedTosecurityCode() {
     this.sayInVoice('Please specify security code');
     this.utterance.addEventListener('end', () => {
       this.rcgdVoice = this.startRecognitionNew();
       this.recognition.onresult = (event: any) => {
         this.securityCode = event.results[0][0].transcript;
+        this.securityCode = this.securityCode.toUpperCase()
         this.confirmPayment();
       }
     });
   }
 
-  confirmPayment(){
+  confirmPayment() {
     this.sayInVoice('Security code is accepted');
-    this.dataService.getDataFromLocalApi(`http://localhost:8080/api/v1/account/sendMoney/{accountNumber}/{amount}/{payee}?accountNumber=73084635&amount=1&payee=abcd&securityCode=I%20AM%20FINE`).subscribe((data: any) => {
-    
-    $('#business-tagline-final').text(data[0]);
+
+    this.dataService.getDataFromApi(`account/sendMoney/{accountNumber}/{amount}/{payee}?accountNumber=${this.accountNumber}&amount=${this.amount}&payee=${this.payee}&securityCode=${this.securityCode}`).subscribe((data: any) => {
+
+      $('#business-tagline-final').text(data[0]);
       this.sayInVoice(data[0]);
     });
 
     $('#ul-lst').html('');
-    
+
   }
 
 
